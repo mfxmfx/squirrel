@@ -1,35 +1,21 @@
-##
-## travis
-##
-
 sudo: false
 language: cpp
 
-addons:
-  apt:
-    packages:
-    - g++-multilib
-    - gcc-multilib
-
-##
-## repository
-##
+notifications:
+  email: false
 
 branches:
   only:
     - travis
 
-##
-## build matrix
-##
+addons:
+  sources: &S
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.5
+    - llvm-toolchain-precise-3.6
+    - llvm-toolchain-precise-3.7
+    - llvm-toolchain-precise-3.8
 
-#os:
-#  - linux
-#  - osx
-
-compiler:
-  - clang
-  - gcc
 
 # Info: we use short variable names because this looks better in Travis' web interface
 # see "before_script" below
@@ -40,16 +26,19 @@ env:
   global:
     - B= A= D=
   matrix:
-    - B=cmake/debug   A=-m32
-    - B=cmake/debug   A=-m64
-    - B=cmake/debug   A=-m64 D="-DNO_COMPILER"
-    - B=cmake/debug   A=-m64 D="-DNO_GARBAGE_COLLECTOR"
-    - B=cmake/debug   A=-m64 D="-DNO_COMPILER -DNO_GARBAGE_COLLECTOR"
-    - B=cmake/release A=-m32
-    - B=cmake/release A=-m64
-    - B=cmake/release A=-m64 D="-DNO_COMPILER"
-    - B=cmake/release A=-m64 D="-DNO_GARBAGE_COLLECTOR"
-    - B=cmake/release A=-m64 D="-DNO_COMPILER -DNO_GARBAGE_COLLECTOR"
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+matrix:
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+  include:
+    - os: linux
+      compiler: gcc
+      env: B=cmake/debug A=-m32
+      addons: { apt: { packages: [ "g++-multilib" ] } }
+    - os: linux
+      compiler: gcc
+      env: B=cmake/release A=-m64
 
 ##
 ## build script
@@ -63,4 +52,4 @@ before_script:
   - export CPPFLAGS="$D"
   - export BUILD_DIR="$TRAVIS_BUILD_DIR/build"
 script:
-  - bash "$TRAVIS_BUILD_DIR/.travis_build.sh"
+  - bash "$TRAVIS_BUILD_DIR/.travis.sh"
