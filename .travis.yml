@@ -49,6 +49,7 @@ matrix:
 ##
 
 before_script:
+  - set
   - env
   - export BUILD_METHOD_AND_BUILD_TYPE="$B"
   - export VERBOSE=1
@@ -57,5 +58,6 @@ before_script:
   - export CPPFLAGS="$D"
   - export BUILD_DIR="$TRAVIS_BUILD_DIR/build"
 script:
+  - set
   - env
   - bash "$TRAVIS_BUILD_DIR/.travis.sh"
