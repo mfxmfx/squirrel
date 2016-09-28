@@ -33,11 +33,11 @@ matrix:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
   include:
     - os: linux
-      compiler: gcc
+      compiler: gcc-4.6 -m32
       env: B=cmake/debug A=-m32
       addons: { apt: { packages: [ "g++-multilib" ] } }
     - os: linux
-      compiler: gcc
+      compiler: gcc-4.6 -m64
       env: B=cmake/release A=-m64
 
 ##
