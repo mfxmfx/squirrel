@@ -16,6 +16,7 @@ addons:
     - llvm-toolchain-precise-3.7
     - llvm-toolchain-precise-3.8
   packages:
+    - g++-multilib
     - lcov
     - zsh
 
@@ -48,8 +49,9 @@ matrix:
 ##
 
 before_script:
+  - env
   - export BUILD_METHOD_AND_BUILD_TYPE="$B"
-  - export VERBOSE=
+  - export VERBOSE=1
   - export CFLAGS="$A"
   - export CXXFLAGS="$A"
   - export CPPFLAGS="$D"
