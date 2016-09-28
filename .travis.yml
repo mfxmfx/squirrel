@@ -49,8 +49,8 @@ matrix:
 ##
 
 before_script:
-  - set
-  - env
+  - clang --version
+  - clang-3.4 --version || true
   - export BUILD_METHOD_AND_BUILD_TYPE="$B"
   - export VERBOSE=1
   - export CFLAGS="$A"
